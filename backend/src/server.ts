@@ -102,27 +102,45 @@ async function runMigrations(db: Sequelize): Promise<void> {
 }
 
 // ── Start ──────────────────────────────────────────────
-const start = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('✅ MySQL database connected');
+const startServer = () => new Promise<void>((resolve) => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📊 API:    http://localhost:${PORT}/api`);
+    console.log(`❤️  Health: http://localhost:${PORT}/health`);
+    resolve();
+  });
+});
 
-    // First sync models to create any missing tables (safe — alter:false won't drop columns)
-    await sequelize.sync({ alter: false });
-    console.log('✅ Database models synchronized');
+const connectDatabase = async () => {
+  const maxAttempts = parseInt(process.env.DB_CONNECT_RETRIES || '5', 10);
+  const delayMs = parseInt(process.env.DB_CONNECT_DELAY_MS || '5000', 10);
 
-    // Then add any missing columns that sequelize.sync doesn't handle
-    await runMigrations(sequelize);
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      await sequelize.authenticate();
+      console.log('✅ MySQL database connected');
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📊 API:    http://localhost:${PORT}/api`);
-      console.log(`❤️  Health: http://localhost:${PORT}/health`);
-    });
-  } catch (error) {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
+      // First sync models to create any missing tables (safe — alter:false won't drop columns)
+      await sequelize.sync({ alter: false });
+      console.log('✅ Database models synchronized');
+
+      // Then add any missing columns that sequelize.sync doesn't handle
+      await runMigrations(sequelize);
+      return;
+    } catch (error) {
+      console.error(`❌ DB connect attempt ${attempt}/${maxAttempts} failed:`, error);
+      if (attempt < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
+    }
   }
+
+  console.error('❌ DB connection failed after retries. Server will keep running without DB.');
+};
+
+const start = async () => {
+  await startServer();
+  await connectDatabase();
 };
 
 start();
