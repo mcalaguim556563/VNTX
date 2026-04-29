@@ -33,6 +33,8 @@ services:
         value: byv7ppsfnwzasbjkwbcs
       - key: DB_USER
         value: u4tg9kcsplweszlg
+      - key: BACKEND_PORT
+        value: "5000"
       - key: SESSION_DRIVER
         value: database
       - key: CACHE_STORE

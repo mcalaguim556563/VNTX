@@ -4,6 +4,11 @@
 echo "🔄 Running Laravel migrations..."
 php artisan migrate --force || true
 
+# Default backend port if not provided
+if [ -z "$BACKEND_PORT" ]; then
+    export BACKEND_PORT=5000
+fi
+
 # Start Express backend with logging
 echo "🚀 Starting Express backend..."
 cd /var/www/html/backend
@@ -14,6 +19,7 @@ echo "DB_HOST=$DB_HOST"
 echo "DB_NAME=$DB_NAME"
 echo "DB_USER=$DB_USER"
 echo "DB_PORT=$DB_PORT"
+echo "BACKEND_PORT=$BACKEND_PORT"
 
 # Start backend and capture output to log
 node dist/server.js 2>&1 &
