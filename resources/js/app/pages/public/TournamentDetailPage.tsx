@@ -3,8 +3,7 @@ import { Link, useParams, Navigate } from 'react-router';
 import { Trophy, Users, Calendar, MapPin, Crown, Medal, ChevronRight, RefreshCw } from 'lucide-react';
 import { TournamentStatusBadge, MatchStatusBadge } from '@/app/components/ui/Badge';
 import { EmptyState, LoadingSpinner } from '@/app/components/ui/StatCard';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 
 type Tab = 'overview' | 'matches' | 'standings';
 

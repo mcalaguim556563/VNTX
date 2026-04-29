@@ -10,8 +10,7 @@ import { MatchStatusBadge } from '@/app/components/ui/Badge';
 import { Modal } from '@/app/components/ui/Modal';
 import { EmptyState, LoadingSpinner } from '@/app/components/ui/StatCard';
 import { Pagination, usePagination } from '@/app/components/ui/Pagination';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 
 interface ApiMatch {
   id: number;

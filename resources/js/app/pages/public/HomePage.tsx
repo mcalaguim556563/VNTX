@@ -3,8 +3,7 @@ import { Link } from 'react-router';
 import { Trophy, Users, Calendar, ArrowRight, Zap, ChevronRight, Shield } from 'lucide-react';
 import { MatchStatusBadge, TournamentStatusBadge } from '@/app/components/ui/Badge';
 import { LoadingSpinner } from '@/app/components/ui/StatCard';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 const gradients = [
   'linear-gradient(135deg, #0066CC 0%, #00C8F8 100%)',
   'linear-gradient(135deg, #10B981 0%, #0066CC 100%)',

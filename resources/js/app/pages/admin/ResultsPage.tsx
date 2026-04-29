@@ -6,8 +6,7 @@ import { EmptyState, LoadingSpinner } from '@/app/components/ui/StatCard';
 import { Modal } from '@/app/components/ui/Modal';
 import { Button } from '@/app/components/ui/Button';
 import { Pagination, usePagination } from '@/app/components/ui/Pagination';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 
 interface ApiResult {
   id: number;

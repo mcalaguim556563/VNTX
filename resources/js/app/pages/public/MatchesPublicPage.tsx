@@ -4,8 +4,7 @@ import { Calendar, MapPin, Clock, Zap, Search, RefreshCw } from 'lucide-react';
 import { MatchStatusBadge } from '@/app/components/ui/Badge';
 import { Input, Select } from '@/app/components/ui/Input';
 import { EmptyState, LoadingSpinner } from '@/app/components/ui/StatCard';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 
 interface ApiMatch {
   id: number;

@@ -3,8 +3,7 @@ import { Link } from 'react-router';
 import { Trophy, Crown, Medal, RefreshCw } from 'lucide-react';
 import { Select } from '@/app/components/ui/Input';
 import { LoadingSpinner } from '@/app/components/ui/StatCard';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 
 interface StandingEntry {
   teamId: number;

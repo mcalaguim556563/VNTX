@@ -10,8 +10,7 @@ import {
   ResponsiveContainer, BarChart, Bar, Cell,
 } from 'recharts';
 import { MatchStatusBadge, TournamentStatusBadge } from '@/app/components/ui/Badge';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 
 // ── Custom Chart Tooltip ──────────────────────────────────────────────────────
 const ChartTooltip = ({ active, payload, label }: any) => {

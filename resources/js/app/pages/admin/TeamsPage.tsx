@@ -6,8 +6,7 @@ import { Input, Select } from '@/app/components/ui/Input';
 import { Modal } from '@/app/components/ui/Modal';
 import { EmptyState, LoadingSpinner } from '@/app/components/ui/StatCard';
 import { Pagination, usePagination } from '@/app/components/ui/Pagination';
-
-const API = 'http://localhost:5000/api';
+import { API_URL as API } from '@/config/api';
 
 const sportOptions = [
   { value: '', label: 'All Sports' },
