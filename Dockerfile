@@ -56,6 +56,9 @@ RUN npm run build
 # Create storage symlink for public files
 RUN php artisan storage:link || true
 
+# Build Express backend
+RUN cd /var/www/html/backend && npm install && npm run build
+
 # Set permissions
 RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache public/uploads \
     && chown -R www-data:www-data storage bootstrap/cache public/uploads \

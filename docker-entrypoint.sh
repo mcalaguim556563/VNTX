@@ -1,45 +1,24 @@
 #!/bin/bash
 
-# Run Laravel migrations (creates database tables if they don't exist)
+# Run Laravel migrations
 echo "🔄 Running Laravel migrations..."
 php artisan migrate --force || true
 
-# Build and start Express backend in background
-echo "🔄 Setting up Express backend..."
+# Start Express backend (already built in Dockerfile)
+echo "� Starting Express backend..."
 cd /var/www/html/backend
+node dist/server.js &
 
-# Check if node_modules exists, if not install
-if [ ! -d "node_modules" ]; then
-    echo "📦 Installing npm dependencies..."
-    npm install
-fi
-
-# Build the backend
-echo "🔨 Building TypeScript..."
-npm run build
-if [ $? -ne 0 ]; then
-    echo "❌ Backend build failed!"
-    # Still start Apache so we can see the error
-else
-    echo "✅ Backend built successfully"
-    
-    # Start backend in background with logging
-    echo "🚀 Starting Express backend..."
-    node dist/server.js > /var/log/backend.log 2>&1 &
-    
-    # Wait a moment for backend to start
-    sleep 3
-    
-    # Check if backend is running
-    if curl -s http://localhost:5000/health > /dev/null; then
-        echo "✅ Express backend is running!"
-    else
-        echo "⚠️  Express backend may not have started properly"
-        echo "📋 Backend logs:"
-        cat /var/log/backend.log || echo "No log file"
+# Wait for backend to be ready
+echo "⏳ Waiting for backend to start..."
+for i in {1..30}; do
+    if curl -s http://localhost:5000/health > /dev/null 2>&1; then
+        echo "✅ Backend is running on port 5000"
+        break
     fi
-fi
+    sleep 1
+done
 
-# Start Apache in foreground
+# Start Apache
 echo "🌐 Starting Apache..."
 exec apache2-foreground
