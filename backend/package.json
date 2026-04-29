@@ -8,11 +8,16 @@
     "build": "tsc",
     "start": "node dist/server.js"
   },
-  "keywords": ["vntx", "sports", "tournament", "mysql"],
+  "keywords": [
+    "vntx",
+    "sports",
+    "tournament",
+    "mysql"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -22,7 +27,7 @@
     "sequelize": "^6.35.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
