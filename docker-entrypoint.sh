@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Clear Laravel caches to apply env changes
+echo "🧹 Clearing Laravel cache..."
+php artisan config:clear || true
+php artisan cache:clear || true
+php artisan route:clear || true
+php artisan view:clear || true
+
 # Run Laravel migrations
 echo "🔄 Running Laravel migrations..."
 php artisan migrate --force || true
