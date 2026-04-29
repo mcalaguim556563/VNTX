@@ -17,6 +17,7 @@ services:
         value: https://vntx.onrender.com
       - key: DB_CONNECTION
         value: mysql
+      # Laravel variables
       - key: DB_DATABASE
         value: byv7ppsfnwzasbjkwbcs
       - key: DB_HOST
@@ -26,6 +27,11 @@ services:
       - key: DB_PORT
         value: "3306"
       - key: DB_USERNAME
+        value: u4tg9kcsplweszlg
+      # Express backend variables (aliases)
+      - key: DB_NAME
+        value: byv7ppsfnwzasbjkwbcs
+      - key: DB_USER
         value: u4tg9kcsplweszlg
       - key: SESSION_DRIVER
         value: database
