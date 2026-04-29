@@ -4,20 +4,39 @@
 echo "🔄 Running Laravel migrations..."
 php artisan migrate --force || true
 
-# Start Express backend (already built in Dockerfile)
-echo "� Starting Express backend..."
+# Start Express backend with logging
+echo "🚀 Starting Express backend..."
 cd /var/www/html/backend
-node dist/server.js &
 
-# Wait for backend to be ready
-echo "⏳ Waiting for backend to start..."
-for i in {1..30}; do
+# Log environment for debugging
+echo "📋 Environment variables for backend:"
+echo "DB_HOST=$DB_HOST"
+echo "DB_NAME=$DB_NAME"
+echo "DB_USER=$DB_USER"
+echo "DB_PORT=$DB_PORT"
+
+# Start backend and capture output to log
+node dist/server.js 2>&1 &
+BACKEND_PID=$!
+echo "📌 Backend PID: $BACKEND_PID"
+
+# Wait a moment then check if process is still running
+sleep 5
+if ! kill -0 $BACKEND_PID 2>/dev/null; then
+    echo "❌ Backend process died immediately!"
+    echo "Checking for dist/server.js..."
+    ls -la dist/ 2>&1 || echo "dist directory not found"
+else
+    echo "✅ Backend process is running (PID: $BACKEND_PID)"
+    
+    # Test if it's actually listening
+    sleep 3
     if curl -s http://localhost:5000/health > /dev/null 2>&1; then
-        echo "✅ Backend is running on port 5000"
-        break
+        echo "✅ Backend is responding on port 5000"
+    else
+        echo "⚠️ Backend process running but not responding on port 5000"
     fi
-    sleep 1
-done
+fi
 
 # Start Apache
 echo "🌐 Starting Apache..."
