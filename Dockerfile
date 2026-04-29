@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache rewrite
-RUN a2enmod rewrite
+# Enable Apache rewrite and proxy modules
+RUN a2enmod rewrite proxy proxy_http
 
 # Make Apache use Render's default web port 10000
 RUN sed -i 's/Listen 80/Listen 10000/g' /etc/apache2/ports.conf \
@@ -29,6 +29,10 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available
 # Allow .htaccess for Laravel
 RUN printf '<Directory /var/www/html/public>\n    AllowOverride All\n    Require all granted\n</Directory>\n' > /etc/apache2/conf-available/laravel.conf \
     && a2enconf laravel
+
+# Configure Apache to proxy /api to Express backend
+RUN printf 'ProxyPreserveHost On\nProxyPass /api http://localhost:5000/api\nProxyPassReverse /api http://localhost:5000/api\n' > /etc/apache2/conf-available/api-proxy.conf \
+    && a2enconf api-proxy
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
