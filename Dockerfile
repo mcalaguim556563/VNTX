@@ -31,7 +31,7 @@ RUN printf '<Directory /var/www/html/public>\n    AllowOverride All\n    Require
     && a2enconf laravel
 
 # Configure Apache to proxy /api to Express backend
-RUN printf 'ProxyPreserveHost On\nProxyPass /api http://localhost:5000/api\nProxyPassReverse /api http://localhost:5000/api\n' > /etc/apache2/conf-available/api-proxy.conf \
+RUN printf 'ProxyPreserveHost On\nProxyPass /api http://localhost:5000/api\nProxyPassReverse /api http://localhost:5000/api\nProxyPass /api/ http://localhost:5000/api/\nProxyPassReverse /api/ http://localhost:5000/api/\n' > /etc/apache2/conf-available/api-proxy.conf \
     && a2enconf api-proxy
 
 # Install Node.js

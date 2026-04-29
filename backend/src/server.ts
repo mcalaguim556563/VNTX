@@ -27,6 +27,10 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'OK', message: 'VNTX Backend is running', timestamp: new Date().toISOString() });
 });
 
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'OK', message: 'VNTX Backend API is running', timestamp: new Date().toISOString() });
+});
+
 // ── Global error handler ───────────────────────────────
 app.use(errorHandler);
 
